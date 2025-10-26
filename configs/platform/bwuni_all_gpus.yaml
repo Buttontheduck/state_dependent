@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+hydra:
+  mode: MULTIRUN  # needed for launcher to be used
+  run:
+    dir: ./outputs/training/${now:%Y-%m-%d}/${name}/${hydra.job.num}
+  sweep:
+    dir: ./outputs/training/${now:%Y-%m-%d}
+    subdir: ${name}/seed_${seed}/${hydra.job.num}
+  launcher:
+    # launcher/cluster specific options
+    partition: "gpu_a100_il,gpu_h100_il,gpu_h100"
+    timeout_min: 240 # in minutes, increase for your needs
+    gres: gpu:1 # one gpu allocated
+    mem_per_gpu: 4000  # in MB
+    additional_parameters:
+      cpus-per-task: 12
+      
+
+

@@ -1,0 +1,36 @@
+defaults:
+  - agent_config: dmpo   
+  - trainer_config: trainer_config         
+  - wandb_config: diffusion_wandb 
+  - _self_ 
+
+
+header: "import tonic.torch"
+agent: "tonic.torch.agents.DMPO()"
+environment: 'tonic.environments.Gym("Pendulum-v1")'  #'tonic.environments.ControlSuite("walker-stand")' 
+test_environment: null
+trainer: "tonic.Trainer()"
+before_training: ""
+after_training: ""
+parallel: 1
+sequential: 1
+seed: 0
+name: "DMPO-X"
+environment_name: null
+checkpoint: "last"
+path: ""
+
+# Added Hydra multirun configuration  #"agent_config.agent_config.actor_updater.gradient_clip": 0,1 
+hydra:
+  mode: MULTIRUN 
+  sweeper:
+    params:
+      seed: 0
+      "agent_config.agent_config.actor_updater.action_penalization": false
+      "agent_config.agent_config.actor_updater.epsilon": 1
+      "agent_config.agent_config.model.actor.head.num_diffusion_steps": 50
+
+
+
+
+     

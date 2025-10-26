@@ -1,0 +1,36 @@
+defaults:
+  - agent_config: dmpo   
+  - trainer_config: trainer_config         
+  - wandb_config: diffusion_wandb 
+  - platform: bwuni_all_gpus   # Use your existing platform config
+  - _self_ 
+  - override hydra/sweeper: list
+
+
+header: "import tonic.torch"
+agent: "tonic.torch.agents.DMPO()"
+environment: 'tonic.environments.ControlSuite("hopper-stand")'
+test_environment: null
+trainer: "tonic.Trainer()"
+before_training: ""
+after_training: ""
+parallel: 1
+sequential: 1
+seed: 0
+name: "DMPO-X"
+environment_name: null
+checkpoint: "last"
+path: ""
+
+# Added Hydra multirun configuration
+hydra:
+  mode: MULTIRUN 
+  sweeper:
+    grid_params:
+      seed: 0,1,2
+    list_params:
+      "agent_config.agent_config.model.actor.head.model_type": mlp
+
+
+
+

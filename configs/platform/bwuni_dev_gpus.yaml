@@ -1,0 +1,19 @@
+# @package _global_
+
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+hydra:
+  mode: MULTIRUN
+  run:
+    dir: ./outputs/training/${now:%Y-%m-%d}/${name}
+  sweep:
+    dir: ./outputs/training/${now:%Y-%m-%d}
+    subdir: ${name}/seed_${seed}
+  launcher:
+    partition: "dev_gpu_a100_il,dev_gpu_h100"          # dev queue for quick GPU debugging :contentReference[oaicite:0]{index=0}
+    timeout_min: 30                  # hard cap in dev queues (30 min) :contentReference[oaicite:1]{index=1}
+    gres: gpu:1                      # one H100 GPU
+    mem_per_gpu: 8300                # 193 GB per GPU as required :contentReference[oaicite:2]{index=2}
+    additional_parameters:
+      cpus-per-gpu: 24              # 24 CPUs per GPU (Slurm flag) :contentReference[oaicite:3]{index=3}

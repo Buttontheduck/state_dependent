@@ -1,0 +1,20 @@
+defaults:
+  - agent_config: dmpo   
+  - trainer_config: trainer_config         
+  - wandb_config: diffusion_wandb  
+
+
+header: "import tonic.torch"
+agent: "tonic.torch.agents.DMPO()"
+environment: 'tonic.environments.ControlSuite("walker-run")'  #'tonic.environments.Gym("Pendulum-v1")'
+test_environment: null
+trainer: "tonic.Trainer()"
+before_training: ""
+after_training: ""
+parallel: 1
+sequential: 1
+seed: 0
+name: "DMPO-X"
+environment_name: null
+checkpoint: "last"
+path: ""

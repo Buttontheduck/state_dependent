@@ -1,0 +1,10 @@
+# Enhanced WandB configuration for diffusion policies
+wandb_config:
+  name: "NEW_η_DMPO_tanh_seed${seed}_epsilon_${agent_config.agent_config.actor_updater.epsilon}" #_dualLR_${agent_config.agent_config.actor_updater.optimizer.dual_learning_rate}_ActorGradClip_${agent_config.agent_config.actor_updater.actor_gradient_clip}_DualGradClip_${agent_config.agent_config.actor_updater.dual_gradient_clip}" 
+  project: "Debug State Depended Temperature"
+  entity: null
+  mode: "online"
+  group: "epsilon_${agent_config.agent_config.actor_updater.epsilon}" # Standard Hydra interpolation syntax
+  job_type: "training"
+  tags: ["diffusion-policy", "dmpo"]
+  notes: "gym Pendulum"

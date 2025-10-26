@@ -1,0 +1,10 @@
+defaults:
+  - agent_config: dmpo   
+  - _self_ 
+
+
+header: "import tonic.torch"
+environment: 'tonic.environments.ControlSuite("cartpole-swingup")'
+seed: 0
+checkpoint: "last"
+path: "/home/ka/ka_anthropomatik/ka_ln2554/mpo_diff/outputs/training/2025-05-25/DMPO-X/seed_0/cartpole-swingup/DMPO-X/0"

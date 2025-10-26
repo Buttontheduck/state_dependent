@@ -1,0 +1,8 @@
+# trainer_config.yaml
+trainer_config:
+  steps: 1000000              # Total training steps
+  epoch_steps: 1000           # Steps per epoch
+  save_steps: 500000          # Steps between checkpoints
+  test_episodes: 1            # Number of test episodes per evaluation
+  show_progress: true         # Whether to show progress bar
+  replace_checkpoint: false   # Whether to replace existing checkpoints

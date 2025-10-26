@@ -1,0 +1,21 @@
+# Enhanced WandB configuration for diffusion policies
+wandb_config:
+  name: "DMPO_bounded_seed${seed}_epsilon_${agent_config.agent_config.actor_updater.epsilon}"  # _squash${agent_config.agent_config.model.actor_squash}_scale${agent_config.agent_config.actor_updater.action_penalization}"
+  project: "Debug MPO Diff cartpole-swingup" 
+  entity: null
+  mode: "online"
+  group: "_epsilon_${agent_config.agent_config.actor_updater.epsilon}"    #_steps${agent_config.agent_config.model.actor.head.num_diffusion_steps}" 
+  job_type: "training" 
+  tags: ["dmpo"]
+  notes: "Diffusion MPO with cartpole-swingup Experiment with bounded action, with diffent epsilons.Also check how the checkpointing works."
+
+  # Enhanced WandB configuration for diffusion policies
+wandb_config:
+  name: "seed${seed}_DMPO_network_${agent_config.agent_config.model.actor.head.model_type}_nHiddenLayers_${agent_config.agent_config.model.actor.head.n_hidden}_hidden_dim_${agent_config.agent_config.model.actor.head.hidden_dim}_batch_size_${agent_config.agent_config.replay_updater.batch_size}" 
+  project: "Experiment MPO Diff cartpole-swingup"
+  entity: null
+  mode: "online"
+  group: "$_DMPO_network_${agent_config.agent_config.model.actor.head.model_type}_nHiddenLayers_${agent_config.agent_config.model.actor.head.n_hidden}_hidden_dim_${agent_config.agent_config.model.actor.head.hidden_dim}_batch_size_${agent_config.agent_config.replay_updater.batch_size}"  # Standard Hydra interpolation syntax
+  job_type: "training"
+  tags: ["diffusion-policy", "dmpo"]
+  notes: "DMPO with diffusion policy "

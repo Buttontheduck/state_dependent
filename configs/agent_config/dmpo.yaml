@@ -1,0 +1,86 @@
+
+# Agent configuration
+agent_config:
+  model:
+    # Actor-critic architecture with diffusion policy
+    name: DiffusionActorCriticWithTargets
+    actor:
+      name: DiffusionActor
+      encoder:
+        name: IdentityEncoder
+      torso:
+        name: IdentityTorso
+      head:
+        name: DiffusionPolicyHead
+        device: cpu  
+        num_diffusion_steps: 50
+        hidden_dim: 256
+        n_hidden: 4
+        n_blocks: null      # Does Nothing
+        sigma_data: 1.0
+        sampler_type: ddim  # Options: ddim, ode
+        model_type: mlp     # Options: mlp, resnet
+    critic:
+      name: Critic
+      encoder:
+        name: ObservationActionEncoder
+      torso:
+        name: MLP
+        hidden_layers: [256, 256]
+        activation: ReLU
+      head:
+        name: ValueHead
+      device: cpu
+    temperature:
+        hidden_dim: 256
+        n_hidden: 2
+        device: cuda
+        encoder: IdentityEncoder
+    observation_normalizer:
+      name: MeanStd
+    return_normalizer: null
+    actor_squash: false
+    action_scale: 1
+    target_coeff: 0.005  # Polyak averaging coefficient
+
+  # Replay buffer configuration
+  replay_updater:
+    name: Buffer
+    size: 1000000
+    batch_size: 256
+    discount_factor: 0.99
+    steps_before_batches: 10000
+    return_steps: 5
+    steps_between_batches: 50
+
+  # Actor updater (for diffusion policy)
+  actor_updater:
+    name: DiffusionMaximumAPosterioriPolicyOptimization
+    num_samples: 20
+    epsilon: 0.1
+    epsilon_penalty: 0.001
+    epsilon_mean: 0.001
+    epsilon_std: 0.000001
+    initial_log_temperature: 1.0
+    initial_log_alpha_mean: 1.0
+    initial_log_alpha_std: 10.0
+    min_log_dual: -18.0
+    per_dim_constraining: true
+    action_penalization: false
+    actor_gradient_clip: 0
+    dual_gradient_clip: 0
+    temperature_state: true
+    optimizer:
+      name: Adam
+      learning_rate: 0.0003
+      dual_learning_rate: 0.02
+
+  # Critic updater
+  critic_updater:
+    name: DiffusionExpectedSARSA
+    num_samples: 20
+    optimizer:
+      name: Adam
+      learning_rate: 0.0003
+    gradient_clip: 0
+
