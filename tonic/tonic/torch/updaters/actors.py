@@ -635,7 +635,8 @@ class DiffusionMaximumAPosterioriPolicyOptimization:
             flat_observations = updaters.merge_first_two_dims(
                 tiled_observations)
             flat_actions = updaters.merge_first_two_dims(actions)
-            values = self.model.target_critic(flat_observations, flat_actions).to("cpu")
+            value_dist = self.model.target_critic(flat_observations, flat_actions).to("cpu")
+            values = value_dist.mean()
             values = values.view(self.num_samples, -1)
 
         self.actor_optimizer.zero_grad()
